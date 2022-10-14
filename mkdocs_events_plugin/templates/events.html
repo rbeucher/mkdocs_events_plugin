@@ -26,135 +26,95 @@ SOFTWARE.
 
 {% block style %}
 <style>
-    .md-typeset .blog-post:first-of-type h3 {
-        margin-top: 0;
-    }
 
-    .md-typeset .blog-post-title {
+    .md-typeset .events-post-title {
         margin-bottom: 0;
     }
 
-    .md-typeset .blog-post-extra {
+    .md-typeset .events-post-extra {
         color: var(--md-default-fg-color--light);
     }
 
-    .md-typeset .blog-center {
-        text-align: center;
-    }
-
-    .md-typeset .blog-pagination {
-        display: inline-block;
-    }
-
-    .md-typeset .blog-pagination a {
-        color: var(--md-typeset-color);
-        float: left;
-        padding: .25em 1em;
-        text-decoration: none;
-        border-radius: 1em;
-        margin-left: .25em;
-        margin-right: .25em;
-        transition: all .15s ease-in-out;
-    }
-
-    .md-typeset .blog-pagination a.active {
-        background-color: var(--md-typeset-a-color);
-        color: white;
-        font-weight: bold;
-    }
-
-    .md-typeset .blog-pagination a:hover:not(.active) {
-        background-color: #dddddda1;
-    }
-
-    .md-typeset .blog-hidden {
-        display: none;
-    }
-
-    .blog-override-post {
+    .events-override-post {
         padding: 30px 60px 30px 0;
         margin-top: 10px;
         border: 1px solid transparent;
         cursor: default;
     }
 
-    .blog-override-post .blog-post-title {
+    .events-override-post .events-post-title {
         color: var(--md-typeset-a-color);
         margin-top: 0;
     }
 
-    .blog-post-description {
+    .events-post-description {
         color: var(--md-typeset-color);
     }
 
-    .blog-override-post:first-of-type {
-        margin-top: 0;
-    }
-
-    .blog-override-post:hover {
+    .events-override-post:hover {
         border: 1px solid #e8e8e877;
         box-shadow: 3px 4px 10px #e8e8e8;
     }
 
-    .blog-override-post,
-    .blog-override-post>* {
+    .events-override-post,
+    .events-override-post>* {
         transition: all 0.3s ease-in-out;
     }
 
-    .blog-override-post:hover>* {
+    .events-override-post:hover>* {
         transform: translateX(30px);
     }
 
-    .blog-post-description,
-    .blog-post-extra {
+    .events-post-description,
+    .events-post-extra {
         opacity: 0.8;
     }
 
-    .blog-override-post:hover .blog-post-description,
-    .blog-override-post:hover .blog-post-extra {
+    .events-override-post:hover .events-post-description,
+    .events-override-post:hover .events-post-extra {
         opacity: 1;
     }
 
     @media only screen and (max-width: 1000px) {
-        .blog-override-post,
-        .blog-override-post>* {
+        .events-override-post,
+        .events-override-post>* {
             transition: none;
         }
 
-        .blog-override-post:hover>* {
+        .events-override-post:hover>* {
             transform: none;
         }
 
-        .blog-override-post {
+        .events-override-post {
             padding: 30px 0 30px 0;
             border: none;
             cursor: pointer;
         }
 
-        .blog-override-post:hover {
+        .events-override-post:hover {
             border: none;
             box-shadow: none;
         }
 
-        .blog-post-description,
-        .blog-post-extra,
-        .blog-override-post:hover .blog-post-description,
-        .blog-override-post:hover .blog-post-extra {
+        .events-post-description,
+        .events-post-extra,
+        .events-override-post:hover .events-post-description,
+        .events-override-post:hover .events-post-extra {
             opacity: 1;
         }
     }
 </style>
 {% endblock %}
 
-{% if render_blog is not defined %}
-{% macro render_blog(title, description, time, url, pg) -%}
+{% if render_events is not defined %}
+{% macro render_events(title, description, time, url, pg) -%}
 <a href="{{ url }}">
-    <div class="blog-override-post">
-        <h3 class="blog-post-title">{{ title }}</h3>
+    <div class="events-override-post">
+        <h3 class="events-post-title">{{ title }}</h3>
         <p> {{ pg.meta.start_date }} - {{ pg.meta.end_date }} </p>
         <p> {{ pg.meta.location }} </p>
-        <p class="blog-post-description">{{ description }}</p>
-        <div class="blog-post-extra">
+        <p class="events-post-description">{{ description }}</p>
+        <div class="events-post-extra">
             {{ " Organised by: " + pg.meta.organisator }}
         </div>
     </div>
@@ -178,7 +138,7 @@ SOFTWARE.
                 {% set time = pg.meta["localized-time"] %}
             {% endif %}
             
-            {% call render_blog(title, description, time, url, pg) %}
+            {% call render_events(title, description, time, url, pg) %}
             {% endcall %}
                 
         </div>
