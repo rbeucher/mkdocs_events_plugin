@@ -1,0 +1,186 @@
+{#
+MIT License
+
+Copyright (c) 2022 Romain Beucher
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+#}
+
+
+
+{% block style %}
+<style>
+    .md-typeset .blog-post:first-of-type h3 {
+        margin-top: 0;
+    }
+
+    .md-typeset .blog-post-title {
+        margin-bottom: 0;
+    }
+
+    .md-typeset .blog-post-extra {
+        color: var(--md-default-fg-color--light);
+    }
+
+    .md-typeset .blog-center {
+        text-align: center;
+    }
+
+    .md-typeset .blog-pagination {
+        display: inline-block;
+    }
+
+    .md-typeset .blog-pagination a {
+        color: var(--md-typeset-color);
+        float: left;
+        padding: .25em 1em;
+        text-decoration: none;
+        border-radius: 1em;
+        margin-left: .25em;
+        margin-right: .25em;
+        transition: all .15s ease-in-out;
+    }
+
+    .md-typeset .blog-pagination a.active {
+        background-color: var(--md-typeset-a-color);
+        color: white;
+        font-weight: bold;
+    }
+
+    .md-typeset .blog-pagination a:hover:not(.active) {
+        background-color: #dddddda1;
+    }
+
+    .md-typeset .blog-hidden {
+        display: none;
+    }
+
+    .blog-override-post {
+        padding: 30px 60px 30px 0;
+        margin-top: 10px;
+        border: 1px solid transparent;
+        cursor: default;
+    }
+
+    .blog-override-post .blog-post-title {
+        color: var(--md-typeset-a-color);
+        margin-top: 0;
+    }
+
+    .blog-post-description {
+        color: var(--md-typeset-color);
+    }
+
+    .blog-override-post:first-of-type {
+        margin-top: 0;
+    }
+
+    .blog-override-post:hover {
+        border: 1px solid #e8e8e877;
+        box-shadow: 3px 4px 10px #e8e8e8;
+    }
+
+    .blog-override-post,
+    .blog-override-post>* {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .blog-override-post:hover>* {
+        transform: translateX(30px);
+    }
+
+    .blog-post-description,
+    .blog-post-extra {
+        opacity: 0.8;
+    }
+
+    .blog-override-post:hover .blog-post-description,
+    .blog-override-post:hover .blog-post-extra {
+        opacity: 1;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .blog-override-post,
+        .blog-override-post>* {
+            transition: none;
+        }
+
+        .blog-override-post:hover>* {
+            transform: none;
+        }
+
+        .blog-override-post {
+            padding: 30px 0 30px 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        .blog-override-post:hover {
+            border: none;
+            box-shadow: none;
+        }
+
+        .blog-post-description,
+        .blog-post-extra,
+        .blog-override-post:hover .blog-post-description,
+        .blog-override-post:hover .blog-post-extra {
+            opacity: 1;
+        }
+    }
+</style>
+{% endblock %}
+
+{% if render_blog is not defined %}
+{% macro render_blog(title, description, time, url, pg) -%}
+<a href="{{ url }}">
+    <div class="blog-override-post">
+        <h3 class="blog-post-title">{{ title }}</h3>
+        <p> {{ pg.meta.start_date }} - {{ pg.meta.end_date }} </p>
+        <p> {{ pg.meta.location }} </p>
+        <p class="blog-post-description">{{ description }}</p>
+        <div class="blog-post-extra">
+            {{ " Organised by: " + pg.meta.organisator }}
+        </div>
+    </div>
+</a>
+{{ caller() }}
+{%- endmacro %}
+{% endif %}
+
+<div class="pages">
+    {% for page_idx in range(0, page_num) %}
+        {% set pg = pages[page_idx] %}
+        <div class="page" id="page{{ page_idx + 1 }}">
+
+            {# Setting variables. #}
+            {% set url = pg.canonical_url %}
+            {% set title = pg.title %}
+            {% set description = pg.meta.description %}
+
+            {% set time = "" %}
+            {% if pg.meta and pg.meta["localized-time"] %}
+                {% set time = pg.meta["localized-time"] %}
+            {% endif %}
+            
+            {% call render_blog(title, description, time, url, pg) %}
+            {% endcall %}
+                
+        </div>
+    {% endfor %}
+</div>
