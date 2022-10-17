@@ -127,7 +127,11 @@ SOFTWARE.
             {# Setting variables. #}
             {% set url = pg.canonical_url %}
             {% set title = pg.title %}
-            {% set description = pg.meta.description %}
+        
+            {% set description = "" %}
+            {% if pg.meta.description %}
+                {% set description = pg.meta.description|truncate %}
+            {% endif %}
 
             {% set time = "" %}
             {% if pg.meta and pg.meta["localized-time"] %}
