@@ -40,7 +40,7 @@ class EventsPlugin(mkdocs.plugins.BasePlugin[EventsConfig]):
 
         file_path = Path(page.file.src_path)
 
-        if Path("./events") in file_path.parents:
+        if Path(self.events_dir) in file_path.parents:
                 self.pages.append(page)
 
         return
