@@ -42,6 +42,7 @@ class EventsPlugin(mkdocs.plugins.BasePlugin[EventsConfig]):
 
         if Path("./events") in file_path.parents:
                 self.pages.append(page)
+
         return
     
     def on_page_markdown(self, markdown, page, config, files):
@@ -62,8 +63,8 @@ class EventsPlugin(mkdocs.plugins.BasePlugin[EventsConfig]):
 
     def generate_html(self) -> str:
         template = self.jinja_template
-
-        return template.render(pages=self.pages, page_num=len(self.pages))
+        sorted_pages = sorted(self.pages, key=lambda page: page.meta["start_date"])
+        return template.render(pages=sorted_pages, page_num=len(self.pages))
 
 
     
