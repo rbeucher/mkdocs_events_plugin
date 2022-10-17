@@ -41,7 +41,10 @@ class EventsPlugin(mkdocs.plugins.BasePlugin[EventsConfig]):
         file_path = Path(page.file.src_path)
 
         if Path(self.events_dir) in file_path.parents:
-                self.pages.append(page)
+                event_end_date = datetime.strptime(page.meta["end_date"], "%d/%m/%Y")
+                current_date = datetime.now()
+                if current_date < event_end_date:
+                    self.pages.append(page)
 
         return
     
