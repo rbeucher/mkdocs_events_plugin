@@ -63,7 +63,7 @@ class EventsPlugin(mkdocs.plugins.BasePlugin[EventsConfig]):
 
     def generate_html(self) -> str:
         template = self.jinja_template
-        sorted_pages = sorted(self.pages, key=lambda page: page.meta["start_date"])
+        sorted_pages = sorted(self.pages, key=lambda page: datetime.strptime(page.meta["start_date"], '%d/%m/%Y'))
         return template.render(pages=sorted_pages, page_num=len(self.pages))
 
 
