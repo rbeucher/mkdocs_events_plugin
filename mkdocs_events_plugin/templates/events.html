@@ -36,10 +36,9 @@ SOFTWARE.
     }
 
     .events-override-post {
-        padding: 30px 60px 30px 0;
+        padding: 10px 60px 10px 0;
         margin-top: 10px;
         border: 1px solid transparent;
-        cursor: default;
     }
 
     .events-override-post .events-post-title {
@@ -62,7 +61,7 @@ SOFTWARE.
     }
 
     .events-override-post:hover>* {
-        transform: translateX(30px);
+        transform: translateX(40px);
     }
 
     .events-post-description,
@@ -114,9 +113,6 @@ SOFTWARE.
         <p> {{ pg.meta.start_date }} - {{ pg.meta.end_date }} </p>
         <p> {{ pg.meta.location }} </p>
         <p class="events-post-description">{{ description }}</p>
-        <div class="events-post-extra">
-            {{ " Organised by: " + pg.meta.organisator }}
-        </div>
     </div>
 </a>
 {{ caller() }}
